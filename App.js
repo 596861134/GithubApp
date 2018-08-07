@@ -9,6 +9,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Image} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
+import {Navigator} from 'react-native-deprecated-custom-components';
+import Boy from './test/Boy';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -30,7 +32,7 @@ export default class App extends Component<Props> {
     render() {
         return (
             <View style={styles.container}>
-                <TabNavigator>
+                {/*<TabNavigator>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'home'}
                         selectedTitleStyle={{color: 'red'}}
@@ -79,7 +81,18 @@ export default class App extends Component<Props> {
                         onPress={() => this.setState({selectedTab: 'me'})}>
                         <View style={{flex: 1, backgroundColor: 'yellow'}}></View>
                     </TabNavigator.Item>
-                </TabNavigator>
+                </TabNavigator>*/}
+
+            <Navigator
+                initialRoute={{
+                    component:Boy,
+                }}
+
+                renderScene={(route,navigator)=>{
+                    let Component = route.component;
+                    return <Component navigator={navigator} {...route.params}/>
+                }}/>
+
             </View>
         );
     }
