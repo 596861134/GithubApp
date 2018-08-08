@@ -1,4 +1,5 @@
-##踩坑1：
+####  常见bug：https://www.jianshu.com/p/e6d8d57fe6a6
+###踩坑1：
     React-Native到0.44版本后Navigator 不能用的问题
     新升级  到0.46版本以后 Navigator 不能使用报错。
     
@@ -16,7 +17,7 @@
     
       3、import {Navigator} from 'react-native-deprecated-custom-components';
       
-##踩坑2：
+###踩坑2：
     使用
     import PropTypes from 'prop-types';
     import ViewPropTypes from 'ViewPropTypes';

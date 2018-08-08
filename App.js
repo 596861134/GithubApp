@@ -11,6 +11,7 @@ import {Platform, StyleSheet, Text, View, Image} from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Boy from './test/Boy';
+import ListViews from "./test/ListViews";
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -83,7 +84,7 @@ export default class App extends Component<Props> {
                     </TabNavigator.Item>
                 </TabNavigator>*/}
 
-            <Navigator
+            {/*<Navigator
                 initialRoute={{
                     component:Boy,
                 }}
@@ -91,7 +92,9 @@ export default class App extends Component<Props> {
                 renderScene={(route,navigator)=>{
                     let Component = route.component;
                     return <Component navigator={navigator} {...route.params}/>
-                }}/>
+                }}/>*/}
+
+                <ListViews />
 
             </View>
         );
