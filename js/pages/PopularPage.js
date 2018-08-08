@@ -9,39 +9,71 @@ import {
 } from 'react-native';
 
 import NavigatorBar from '../common/NavigatorBar';
-// import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
-import ScrollableTabView,{DefaultTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView,{ScrollableTabBar,DefaultTabBar} from 'react-native-scrollable-tab-view';
 import PopularTab from './PopularTab';
 
 export default class PopularPage extends Component {
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <NavigatorBar
-                    title={'最热'}
-                    style={{backgroundColor: '#6495ED',}}
-                    statusBar={{
-                        backgroundColor: '#6495ED',
-                    }}
-                />
-                <ScrollableTabView
-                    renderTabBar={() => <DefaultTabBar />}
-                    tabBarUnderlineStyle={{backgroundColor:'#6495ED'}}
-                    tabBarBackgroundColor='#FFFFFF'
-                    tabBarActiveTextColor='#6495ED'
-                    tabBarInactiveTextColor='#000000'
-                    tabBarTextStyle={{fontSize: 15,paddingTop: 15}}
-                    // renderTabBar={()=><ScrollableTabBar />}
-                >
-                    <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
-                    <PopularTab tabLabel='IOS'>IOS</PopularTab>
-                    <PopularTab tabLabel='Android'>Android</PopularTab>
-                    <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
-                </ScrollableTabView>
+    constructor(props) {
+      super(props);
+      this.state = {
+          tabShow: false,
+      };
+    }
 
-            </View>
+    componentDidMount() {
+        this.timer = setTimeout(() => {
+            this.setState({
+                tabShow: true
+            });
+        }, 0)
+    }
+
+    componentWillUnmount() {
+        this.timer&&clearTimeout(this.timer);
+    }
+
+    render() {
+        if (this.state.tabShow){
+            return (
+                <View style={styles.container}>
+                    <NavigatorBar
+                        title={'最热'}
+                        style={{backgroundColor: '#6495ED',}}
+                        statusBar={{
+                            backgroundColor: '#6495ED',
+                        }}
+                    />
+                    <ScrollableTabView
+                        renderTabBar={()=><ScrollableTabBar />}
+                        tabBarUnderlineStyle={{backgroundColor:'#6495ED'}}
+                        tabBarBackgroundColor='#FFFFFF'
+                        tabBarActiveTextColor='#6495ED'
+                        tabBarInactiveTextColor='#000000'
+                        tabBarTextStyle={{fontSize: 15,paddingTop: 5}}
+                    >
+                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
+                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
+                        <PopularTab tabLabel='Android'>Android</PopularTab>
+                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
+                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
+                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
+                        <PopularTab tabLabel='Android'>Android</PopularTab>
+                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
+                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
+                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
+                        <PopularTab tabLabel='Android'>Android</PopularTab>
+                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
+                    </ScrollableTabView>
+
+                </View>
+            )
+        }
+
+        return(
+            <View />
         )
+
     }
 
 }
