@@ -6,9 +6,9 @@ import {
     View,
     Image,
     TextInput,
-    FlatList, RefreshControl,
+    FlatList,
+    RefreshControl,
 } from 'react-native';
-import PopularPage from "./PopularPage";
 import DataRepossitory from "../expand/dao/DataRepossitory";
 import Api from "../common/Api";
 import RepossitoryCell from "../expand/dao/RepossitoryCell";
