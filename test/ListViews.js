@@ -10,7 +10,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import NavigatorBar from '../res/js/NavigatorBar';
+import NavigatorBar from '../js/common/NavigatorBar';
 
 let data = {
     "result": [

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import styles from './styles';
-import NavigatorBar from '../res/js/NavigatorBar';
+import NavigatorBar from '../js/common/NavigatorBar';
 
 
 export default class Girl extends Component {
