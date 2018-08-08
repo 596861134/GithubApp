@@ -13,6 +13,7 @@ import NavigatorBar from '../common/NavigatorBar';
 import DataRepossitory from '../expand/dao/DataRepossitory';
 import Api from '../common/Api';
 import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import PopularTab from './PopularTab';
 
 export default class PopularPage extends Component {
 
@@ -57,19 +58,12 @@ export default class PopularPage extends Component {
                         backgroundColor: '#6495ED',
                     }}
                 />
-
-                <Text onPress={() => {
-                    this.onLoad()
-                }}>获取数据</Text>
-
-                <TextInput
-                    style={{height: 30, width: '90%', borderWidth:1,borderColor: 'gray', borderRadius: 5,}}
-                    onChangeText={text => this.text = text}
-                />
-
-                <Text style={{flex: 1, fontSize: 10, color: 'black'}}>
-                    {this.state.result}
-                </Text>
+                <ScrollableTabView initialPage={0} renderTabBar={()=><ScrollableTabBar />}>
+                    <PopularTab tabLabel='java'>JAVA</PopularTab>
+                    <PopularTab tabLabel='ios'>IOS</PopularTab>
+                    <PopularTab tabLabel='android'>Android</PopularTab>
+                    <PopularTab tabLabel='javaScript'>JavaScript</PopularTab>
+                </ScrollableTabView>
 
             </View>
         )
@@ -80,7 +74,7 @@ export default class PopularPage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'white',
     },
     images: {
         width: 22,

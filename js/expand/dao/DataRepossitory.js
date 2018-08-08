@@ -7,10 +7,10 @@ export default class DataRepossitory {
         return new Promise((resolve,reject)=>{
             HttpUtils.get(url)
                 .then(result=>{
-                    resolve(JSON.stringify(result));
+                    resolve(result);
                 })
                 .catch(error=>{
-                    reject(JSON.stringify(error));
+                    reject(error);
                 })
         })
 
