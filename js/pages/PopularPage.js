@@ -11,6 +11,7 @@ import {
 import NavigatorBar from '../common/NavigatorBar';
 import ScrollableTabView,{ScrollableTabBar,DefaultTabBar} from 'react-native-scrollable-tab-view';
 import PopularTab from './PopularTab';
+import Color from '../common/Color'
 
 export default class PopularPage extends Component {
 
@@ -39,16 +40,16 @@ export default class PopularPage extends Component {
                 <View style={styles.container}>
                     <NavigatorBar
                         title={'最热'}
-                        style={{backgroundColor: '#6495ED',}}
+                        style={{backgroundColor: Color.themeColor,}}
                         statusBar={{
-                            backgroundColor: '#6495ED',
+                            backgroundColor: Color.themeColor,
                         }}
                     />
                     <ScrollableTabView
                         renderTabBar={()=><ScrollableTabBar />}
-                        tabBarUnderlineStyle={{backgroundColor:'#FFFFFF',height: 1}}
-                        tabBarBackgroundColor='#6495ED'
-                        tabBarActiveTextColor='#FFFFFF'
+                        tabBarUnderlineStyle={{backgroundColor:'white',height: 1}}
+                        tabBarBackgroundColor='#2196F3'
+                        tabBarActiveTextColor='white'
                         tabBarInactiveTextColor='#e7e7e7'
                         tabBarTextStyle={{fontSize: 15}}
                     >

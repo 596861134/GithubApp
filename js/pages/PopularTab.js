@@ -12,6 +12,7 @@ import {
 import DataRepossitory from "../expand/dao/DataRepossitory";
 import Api from "../common/Api";
 import RepossitoryCell from "../expand/dao/RepossitoryCell";
+import Color from '../common/Color'
 
 export default class PopularTab extends Component{
     constructor(props) {
@@ -21,10 +22,15 @@ export default class PopularTab extends Component{
             result: '',
             dataSource:[],
             loading:false,
+            isLoading:false,
         }
     }
 
     onLoad() {
+        this.setState({
+            dataSource:[],
+            isLoading:true,
+        });
         let url = Api.serrchHeader + this.props.tabLabel + Api.serrchEnd;
         console.log('url:'+url);
         this.dataRepossitory.fetchNetRepossitory(url)
@@ -32,12 +38,13 @@ export default class PopularTab extends Component{
                 this.setState({
                     dataSource:this.state.dataSource.concat(resultData.items),
                     loading:true,
+                    isLoading:false,
                 })
             })
             .catch(error => {
-                console.log(error);
+                console.log(JSON.stringify(error));
                 this.setState({
-                    result: JSON.stringify(error),
+                    isLoading:false,
                 })
             })
     }
@@ -60,13 +67,13 @@ export default class PopularTab extends Component{
 
 
     render(){
-        if (!this.state.loading) {
-            return (
-                <View style={styles.container}>
-                    <Text>数据加载中...</Text>
-                </View>
-            )
-        }
+        // if (!this.state.loading) {
+        //     return (
+        //         <View style={styles.container}>
+        //             <Text>数据加载中...</Text>
+        //         </View>
+        //     )
+        // }
 
         return (
             <View style={styles.container}>
@@ -77,6 +84,16 @@ export default class PopularTab extends Component{
                     // ListHeaderComponent={()=>this.space()}
                     // ListFooterComponent={()=>this.space()}
                     ItemSeparatorComponent={()=>this.space()}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isLoading}
+                            onRefresh={()=>this.onLoad()}
+                            color={[Color.themeColor]}
+                            tintColor={Color.themeColor}
+                            title={'loading...'}
+                            titleColor={Color.themeColor}
+                        />
+                    }
                     keyExtractor={(item)=>item.node_id}
                 />
 

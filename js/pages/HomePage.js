@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View, Image} from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import TabNavigator from 'react-native-tab-navigator';
 import PopularPage from './PopularPage';
+import Color from '../common/Color'
 
 export default class HomePage extends Component{
     constructor(props) {
@@ -18,11 +19,11 @@ export default class HomePage extends Component{
                 <TabNavigator>
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'home'}
-                        selectedTitleStyle={{color: 'red'}}
+                        selectedTitleStyle={{color: Color.themeColor}}
                         title="最热"
                         renderIcon={() => <Image style={styles.images}
                                                  source={require('../../res/images/ic_polular.png')}/>}
-                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: 'red'}]}
+                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_polular.png')}/>}
                         onPress={() => this.setState({selectedTab: 'home'})}>
                         <PopularPage />
@@ -30,11 +31,11 @@ export default class HomePage extends Component{
 
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'profile'}
-                        selectedTitleStyle={{color: 'red'}}
+                        selectedTitleStyle={{color: Color.themeColor}}
                         title="趋势"
                         renderIcon={() => <Image style={styles.images}
                                                  source={require('../../res/images/ic_trending.png')}/>}
-                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: 'red'}]}
+                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_trending.png')}/>}
                         onPress={() => this.setState({selectedTab: 'profile'})}>
                         <View style={{flex: 1, backgroundColor: 'yellow'}}></View>
@@ -42,11 +43,11 @@ export default class HomePage extends Component{
 
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'favorite'}
-                        selectedTitleStyle={{color: 'red'}}
+                        selectedTitleStyle={{color: Color.themeColor}}
                         title="收藏"
                         renderIcon={() => <Image style={styles.images}
                                                  source={require('../../res/images/ic_favorite.png')}/>}
-                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: 'red'}]}
+                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_favorite.png')}/>}
                         badgeText="99+"
                         onPress={() => this.setState({selectedTab: 'favorite'})}>
@@ -55,11 +56,11 @@ export default class HomePage extends Component{
 
                     <TabNavigator.Item
                         selected={this.state.selectedTab === 'me'}
-                        selectedTitleStyle={{color: 'red'}}
+                        selectedTitleStyle={{color: Color.themeColor}}
                         title="我的"
                         renderIcon={() => <Image style={styles.images}
                                                  source={require('../../res/images/ic_my.png')}/>}
-                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: 'red'}]}
+                        renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_my.png')}/>}
                         onPress={() => this.setState({selectedTab: 'me'})}>
                         <View style={{flex: 1, backgroundColor: 'yellow'}}></View>
