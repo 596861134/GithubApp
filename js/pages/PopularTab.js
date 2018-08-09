@@ -74,8 +74,8 @@ export default class PopularTab extends Component{
                     style={styles.lists}
                     data={this.state.dataSource}
                     renderItem={(rowData) => this.renderRow(rowData)}
-                    ListHeaderComponent={()=>this.space()}
-                    ListFooterComponent={()=>this.space()}
+                    // ListHeaderComponent={()=>this.space()}
+                    // ListFooterComponent={()=>this.space()}
                     ItemSeparatorComponent={()=>this.space()}
                     keyExtractor={(item)=>item.node_id}
                 />

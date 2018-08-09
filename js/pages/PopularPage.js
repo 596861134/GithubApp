@@ -46,20 +46,12 @@ export default class PopularPage extends Component {
                     />
                     <ScrollableTabView
                         renderTabBar={()=><ScrollableTabBar />}
-                        tabBarUnderlineStyle={{backgroundColor:'#6495ED'}}
-                        tabBarBackgroundColor='#FFFFFF'
-                        tabBarActiveTextColor='#6495ED'
-                        tabBarInactiveTextColor='#000000'
-                        tabBarTextStyle={{fontSize: 15,paddingTop: 5}}
+                        tabBarUnderlineStyle={{backgroundColor:'#FFFFFF',height: 1}}
+                        tabBarBackgroundColor='#6495ED'
+                        tabBarActiveTextColor='#FFFFFF'
+                        tabBarInactiveTextColor='#e7e7e7'
+                        tabBarTextStyle={{fontSize: 15}}
                     >
-                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
-                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
-                        <PopularTab tabLabel='Android'>Android</PopularTab>
-                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
-                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
-                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
-                        <PopularTab tabLabel='Android'>Android</PopularTab>
-                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
                         <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
                         <PopularTab tabLabel='IOS'>IOS</PopularTab>
                         <PopularTab tabLabel='Android'>Android</PopularTab>

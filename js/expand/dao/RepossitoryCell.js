@@ -44,6 +44,7 @@ export default class RepossitoryCell extends Component {
 const styles = StyleSheet.create({
     root: {
         justifyContent: 'center',
+        marginTop:5,
         marginLeft: 10,
         marginRight: 10,
         padding:5,
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width:0.5,height:0.5},
         shadowOpacity: 0.4,
         shadowRadius: 1,
+        elevation: 5,
     },
     project: {
         fontSize: 18,
