@@ -3,7 +3,9 @@ import {Platform, StyleSheet, Text, View, Image} from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import TabNavigator from 'react-native-tab-navigator';
 import PopularPage from './PopularPage';
+import MyPage from "./my/MyPage";
 import Color from '../common/Color'
+import AsyncStorageTest from '../../test/AsyncStorageTest'
 
 export default class HomePage extends Component{
     constructor(props) {
@@ -38,7 +40,7 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_trending.png')}/>}
                         onPress={() => this.setState({selectedTab: 'profile'})}>
-                        <View style={{flex: 1, backgroundColor: 'yellow'}}></View>
+                        <AsyncStorageTest />
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
@@ -63,7 +65,7 @@ export default class HomePage extends Component{
                         renderSelectedIcon={() => <Image style={[styles.images, {tintColor: Color.themeColor}]}
                                                          source={require('../../res/images/ic_my.png')}/>}
                         onPress={() => this.setState({selectedTab: 'me'})}>
-                        <View style={{flex: 1, backgroundColor: 'yellow'}}></View>
+                        <MyPage {...this.props}/>
                     </TabNavigator.Item>
                 </TabNavigator>
             </View>
