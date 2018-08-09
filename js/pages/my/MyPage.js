@@ -8,15 +8,22 @@ import {
 } from 'react-native';
 
 import Color from "../../common/Color";
-import NavigatorBar from "../../common/NavigatorBar";
+import SortKeyPage from "./SortKeyPage";
 import CustomKeyPage from "./CustomKeyPage";
+import NavigatorBar from "../../common/NavigatorBar";
+import Toast, {DURATION} from 'react-native-easy-toast'
+import LanguageDao, {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao";
 
 export default class MyPage extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.state = {
+
+        };
     }
+
 
     render() {
         return (
@@ -34,8 +41,23 @@ export default class MyPage extends Component{
                         component:CustomKeyPage,
                         params:{...this.props}
                     })
-                }}>自定义标签</Text>
+                }} style={styles.item}>自定义标签</Text>
 
+                <Text onPress={()=>{
+                    this.props.navigator.push({
+                        component:SortKeyPage,
+                        params:{...this.props}
+                    })
+                }} style={styles.item}>标签排序</Text>
+
+                <Text onPress={()=>{
+                    this.languageDao.del()
+                        .then(result=>{
+                            this.toast.show(result,DURATION.LENGTH_SHORT);
+                        })
+                }} style={styles.item}>清除缓存</Text>
+
+                <Toast ref={toast=>this.toast=toast }/>
             </View>
         )
     }
@@ -46,5 +68,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+    },
+    item:{
+        width:"100%",
+        height:50,
+        padding: 10,
+        fontSize:16,
     },
 });

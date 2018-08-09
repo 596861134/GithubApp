@@ -34,6 +34,8 @@
 
 
 ###踩坑3：
+
+
     解决react-native-scrollable-tab-view使用ScrollableTabBar第一次加载下划线不显示问题
     
     解决方法参考：http://www.lfenxiang.com/thread-960-1-1.html

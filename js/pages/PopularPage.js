@@ -8,63 +8,67 @@ import {
     TextInput,
 } from 'react-native';
 
-import NavigatorBar from '../common/NavigatorBar';
-import ScrollableTabView,{ScrollableTabBar,DefaultTabBar} from 'react-native-scrollable-tab-view';
-import PopularTab from './PopularTab';
 import Color from '../common/Color'
+import PopularTab from './PopularTab';
+import NavigatorBar from '../common/NavigatorBar';
+import LanguageDao, {FLAG_LANGUAGE} from "../expand/dao/LanguageDao";
+import ScrollableTabView, {ScrollableTabBar, DefaultTabBar} from 'react-native-scrollable-tab-view';
 
 export default class PopularPage extends Component {
 
     constructor(props) {
-      super(props);
-      this.state = {
-          tabShow: false,
-      };
+        super(props);
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.state = {
+            data: [],
+        };
     }
 
     componentDidMount() {
-        this.timer = setTimeout(() => {
-            this.setState({
-                tabShow: true
-            });
-        }, 0)
+        this.loadData();
     }
 
-    componentWillUnmount() {
-        this.timer&&clearTimeout(this.timer);
+    loadData() {
+        this.languageDao.fetch()
+            .then(result => {
+                console.log(result);
+                this.setState({
+                    data: result,
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     render() {
-        if (this.state.tabShow){
-            return (
-                <View style={styles.container}>
-                    <NavigatorBar
-                        title={'最热'}
-                        style={{backgroundColor: Color.themeColor,}}
-                        statusBar={{
-                            backgroundColor: Color.themeColor,
-                        }}
-                    />
-                    <ScrollableTabView
-                        renderTabBar={()=><ScrollableTabBar />}
-                        tabBarUnderlineStyle={{backgroundColor:'white',height: 1}}
-                        tabBarBackgroundColor='#2196F3'
-                        tabBarActiveTextColor='white'
-                        tabBarInactiveTextColor='#e7e7e7'
-                        tabBarTextStyle={{fontSize: 15}}
-                    >
-                        <PopularTab tabLabel='JAVA'>JAVA</PopularTab>
-                        <PopularTab tabLabel='IOS'>IOS</PopularTab>
-                        <PopularTab tabLabel='Android'>Android</PopularTab>
-                        <PopularTab tabLabel='JavaScript'>JavaScript</PopularTab>
-                    </ScrollableTabView>
+        let content = this.state.data.length > 0 ? <ScrollableTabView
+            renderTabBar={() => <ScrollableTabBar/>}
+            tabBarUnderlineStyle={{backgroundColor: 'white', height: 1}}
+            tabBarBackgroundColor='#2196F3'
+            tabBarActiveTextColor='white'
+            tabBarInactiveTextColor='#e7e7e7'
+            tabBarTextStyle={{fontSize: 15}}
+        >
+            {this.state.data.map((resule, i, arr) => {
+                let lan = arr[i];
+                return (lan.checked ?
+                    <PopularTab key={i} tabLabel={lan.name}>{lan.path}</PopularTab> : null)
+            })
+            }
+        </ScrollableTabView> : null;
 
-                </View>
-            )
-        }
-
-        return(
-            <View />
+        return (
+            <View style={styles.container}>
+                <NavigatorBar
+                    title={'最热'}
+                    style={{backgroundColor: Color.themeColor,}}
+                    statusBar={{
+                        backgroundColor: Color.themeColor,
+                    }}
+                />
+                {content}
+            </View>
         )
 
     }

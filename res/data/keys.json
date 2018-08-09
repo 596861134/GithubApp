@@ -6,13 +6,38 @@
     "checked": true
   },
   {
+    "path": "android",
+    "name": "Android",
+    "checked": true
+  },
+  {
     "path": "iOS",
     "name": "iOS",
     "checked": true
   },
   {
-    "path": "react-native",
-    "name": "React Native",
+    "path": "java",
+    "name": "Java",
+    "checked": true
+  },
+  {
+    "path": "javaScript",
+    "name": "JavaScript",
+    "checked": true
+  },
+  {
+    "path": "c",
+    "name": "C",
+    "checked": true
+  },
+  {
+    "path": "c++",
+    "name": "C++",
+    "checked": true
+  },
+  {
+    "path": "c#",
+    "name": "C#",
     "checked": true
   },
   {
@@ -21,18 +46,23 @@
     "checked": false
   },
   {
-    "path": " AngularJS",
-    "name": " AngularJS",
+    "path": "AngularJS",
+    "name": "AngularJS",
     "checked": false
   },
   {
-    "path": " jQuery",
-    "name": " jQuery",
+    "path": "jQuery",
+    "name": "jQuery",
     "checked": false
   },
   {
-    "path": " react",
-    "name": " React",
+    "path": "react-native",
+    "name": "React Native",
+    "checked": true
+  },
+  {
+    "path": "react",
+    "name": "React",
     "checked": true
   }
 ]

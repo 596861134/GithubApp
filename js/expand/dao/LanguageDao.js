@@ -38,4 +38,16 @@ export default class LanguageDao {
         })
     }
 
+    del(){
+        return new Promise((resolve) => {
+            AsyncStorage.clear((error)=>{
+                if (!error){
+                    resolve('清除成功');
+                }else{
+                    resolve('清除失败');
+                }
+            })
+        })
+    }
+
 }
