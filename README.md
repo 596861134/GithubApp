@@ -18,23 +18,30 @@
       3、import {Navigator} from 'react-native-deprecated-custom-components';
       
 ###踩坑2：
-    使用
-    import PropTypes from 'prop-types';
-    import ViewPropTypes from 'ViewPropTypes';
-    
-    代替
-    import React, {Component,PropTypes} from 'react';
-    
-     static propTypes = {
-         style: View.propTypes.style,
-     };
+
+
+        使用
+        import PropTypes from 'prop-types';
+        import ViewPropTypes from 'ViewPropTypes';
+        
+        
+        替代
+        import React, {Component,PropTypes} from 'react';
+        
+         static propTypes = {
+             style: View.propTypes.style,
+         };
 
 
 ###踩坑3：
     解决react-native-scrollable-tab-view使用ScrollableTabBar第一次加载下划线不显示问题
+    
     解决方法参考：http://www.lfenxiang.com/thread-960-1-1.html
+    
     修改ScrollableTabBar.js 62行代码为：
-    updateView(offset) {
+    
+    
+        updateView(offset) {
             // 修复没有下划线的问题
             if (offset.value === undefined) {
                 offset.value = this.props.activeTab;
