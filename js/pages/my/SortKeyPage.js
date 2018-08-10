@@ -3,59 +3,106 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
-    TextInput,
     TouchableOpacity,
-    ScrollView,
     AsyncStorage,
     Alert,
 } from 'react-native';
-import NavigatorBar from "../../common/NavigatorBar";
+import SortCell from "./SortCell";
 import Color from "../../common/Color";
 import ViewUtil from "../../util/ViewUtil";
-import LanguageDao, {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao";
-import CheckBox from 'react-native-check-box'
 import ArrayUtil from "../../util/ArrayUtil";
+import NavigatorBar from "../../common/NavigatorBar";
+import SortableListView from 'react-native-sortable-listview'
+import LanguageDao, {FLAG_LANGUAGE} from "../../expand/dao/LanguageDao";
+
 
 export default class SortKeyPage extends Component {
 
     constructor(props) {
         super(props);
+        this.dataArray = [];//原始数据
+        this.sortResultArray = [];//排序后新生成的数组
+        this.originalArray = [];    //上次排序的结果
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.state = {
-            data: [],
+            checkArray: [],//选中的数组
+
         };
     }
 
     componentDidMount() {
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.loadData();
     }
 
     loadData() {
         this.languageDao.fetch()
             .then(result => {
-                console.log(result);
-                this.setState({
-                    data: result,
-                })
+                this.getCheckResult(result);
             })
             .catch(error => {
                 console.log(error);
             })
     }
 
-    onSave() {
+    getCheckResult(result) {
+        this.dataArray = result;
+        let check = [];
+        for (let i = 0, len = result.length; i < len; i++) {
+            let data = result[i];
+            if (data.checked) {
+                check.push(data);
+            }
+        }
 
+        this.setState({
+            checkArray: check,
+        });
+        this.originalArray = ArrayUtil.clone(check);
+    }
+
+    onSave() {
+        if (ArrayUtil.isEqual(this.originalArray, this.state.checkArray)) {
+            this.props.navigator.pop();
+        } else {
+            this.getSortResult();
+            this.languageDao.save(this.sortResultArray)
+            this.props.navigator.pop();
+        }
     }
 
     onBack() {
-        this.props.navigator.pop();
+        if (ArrayUtil.isEqual(this.originalArray, this.state.checkArray)) {
+            this.props.navigator.pop();
+        } else {
+            Alert.alert(
+                '提示',
+                '你想在退出前保存更改吗？',
+                [
+                    {
+                        text: 'No', onPress: () => {
+                            this.props.navigator.pop();
+                        }
+                    },
+                    {
+                        text: 'Yes', onPress: () => {
+                            this.onSave();
+                        }
+                    }
+                ]
+            )
+        }
+
     }
 
-    onClick() {
-
+    getSortResult() {
+        this.sortResultArray = ArrayUtil.clone(this.dataArray);
+        for (let i = 0, len = this.originalArray.length; i < len; i++) {
+            let item = this.originalArray[i];
+            let index = this.dataArray.indexOf(item);
+            this.sortResultArray.splice(index,1,this.state.checkArray[i]);
+        }
     }
-
 
     render() {
         let rightButton = (
@@ -77,10 +124,16 @@ export default class SortKeyPage extends Component {
                     leftButton={ViewUtil.getLeftButton(() => this.onBack())}
                     rightButton={rightButton}
                 />
-                <ScrollView>
-
-
-                </ScrollView>
+                <SortableListView
+                    style={{flex: 1}}
+                    data={this.state.checkArray}
+                    order={Object.keys(this.state.checkArray)}
+                    onRowMoved={e => {
+                        this.state.checkArray.splice(e.to, 0, this.state.checkArray.splice(e.from, 1)[0]);
+                        this.forceUpdate()
+                    }}
+                    renderRow={row => <SortCell data={row}/>}
+                />
 
             </View>
         )
