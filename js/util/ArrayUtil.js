@@ -41,4 +41,19 @@ export default class ArrayUtil {
         }
         return true;
     }
+
+    /**
+     * 将数组中指定数据移除
+     * @param arr
+     * @param item
+     */
+    static remove(arr,item){
+        if (!arr) return;
+        for (let i = 0, len = arr.length; i < len; i++) {
+            if (item===arr[i]){
+                arr.splice(i,1);
+            }
+        }
+        
+    }
 }

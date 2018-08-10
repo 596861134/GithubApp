@@ -39,7 +39,7 @@ export default class MyPage extends Component{
                 <Text onPress={()=>{
                     this.props.navigator.push({
                         component:CustomKeyPage,
-                        params:{...this.props}
+                        params:{ ...this.props }
                     })
                 }} style={styles.item}>自定义标签</Text>
 
@@ -49,6 +49,16 @@ export default class MyPage extends Component{
                         params:{...this.props}
                     })
                 }} style={styles.item}>标签排序</Text>
+
+                <Text onPress={()=>{
+                    this.props.navigator.push({
+                        component:CustomKeyPage,
+                        params:{
+                            ...this.props,
+                            isRemoveKey:true,
+                        }
+                    })
+                }} style={styles.item}>标签移除</Text>
 
                 <Text onPress={()=>{
                     this.languageDao.del()

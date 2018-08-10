@@ -21,6 +21,7 @@ export default class CustomKeyPage extends Component {
 
     constructor(props) {
         super(props);
+        this.isRemove = this.props.isRemoveKey?true:false;
         this.changeValues = [];
         this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.state = {
@@ -51,6 +52,11 @@ export default class CustomKeyPage extends Component {
             this.props.navigator.pop();
             return;
         }
+
+        for (let i = 0, len = this.changeValues.length; i < len; i++) {
+            ArrayUtil.remove(this.changeValues,this.changeValues[i]);
+        }
+
         this.languageDao.save(this.state.data);
         this.props.navigator.pop();
 
@@ -79,7 +85,7 @@ export default class CustomKeyPage extends Component {
     }
 
     onClick(data) {
-        data.checked = !data.checked;
+        if (!this.isRemove) data.checked = !data.checked;
         ArrayUtil.updateArray(this.changeValues, data);
         this.setState({
             isClick: !this.state.isClick,
@@ -88,11 +94,12 @@ export default class CustomKeyPage extends Component {
 
     renderCheckBox(data) {
         let leftText = data.name;
+        let isCheck = this.isRemove?false:data.checked;
         return (
             <CheckBox
                 style={{flex: 1, padding: 10}}
                 onClick={() => this.onClick(data)}
-                isChecked={data.checked}
+                isChecked={isCheck}
                 leftText={leftText}
                 checkedImage={<Image source={require('../../../res/images/ic_check_box.png')}
                                      style={{tintColor: Color.themeColor}}/>}
@@ -128,18 +135,22 @@ export default class CustomKeyPage extends Component {
     }
 
     render() {
+        let title = this.isRemove?'标签移除':'自定义标签';
         let rightButton = (
             <TouchableOpacity onPress={() => this.onSave()}>
                 <View>
-                    <Text style={{color: 'white', fontSize: 15, marginRight: 5}}>保存</Text>
+                    <Text style={{color: 'white', fontSize: 15, marginRight: 5}}>
+                        {this.isRemove?'移除':'保存'}
+                    </Text>
                 </View>
             </TouchableOpacity>
         );
 
         return (
+
             <View style={styles.container}>
                 <NavigatorBar
-                    title={'自定义标签'}
+                    title={title}
                     style={{backgroundColor: Color.themeColor,}}
                     statusBar={{
                         backgroundColor: Color.themeColor,
