@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Image} from 'react-native';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    DeviceEventEmitter,
+} from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import TabNavigator from 'react-native-tab-navigator';
 import PopularPage from './PopularPage';
 import MyPage from "./my/MyPage";
 import Color from '../common/Color'
 import AsyncStorageTest from '../../test/AsyncStorageTest'
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 export default class HomePage extends Component{
     constructor(props) {
@@ -13,6 +21,17 @@ export default class HomePage extends Component{
         this.state = {
             selectedTab: 'home',
         };
+    }
+
+    componentDidMount() {
+        // this.listener = DeviceEventEmitter.addListener('',);
+        this.listener = DeviceEventEmitter.addListener('showToast',text=>{
+            this.toast.show(text,DURATION.LENGTH_SHORT);
+        } )
+    }
+
+    componentWillUnmount() {
+        this.listener&&this.listener.remove();
     }
 
     render() {
@@ -68,6 +87,7 @@ export default class HomePage extends Component{
                         <MyPage {...this.props}/>
                     </TabNavigator.Item>
                 </TabNavigator>
+                <Toast ref={toast=>this.toast=toast }/>
             </View>
         );
     }
