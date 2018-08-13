@@ -11,7 +11,11 @@ export default class RepossitoryCell extends Component {
 
     render() {
         return (
-            <TouchableOpacity >
+            <TouchableOpacity
+                onPress={()=>{
+                    this.props.onSelect()
+                }}
+            >
                 <View style={styles.root}>
                     <Text style={styles.project}>{this.props.data.item.full_name}</Text>
                     <Text style={styles.description}>{this.props.data.item.description}</Text>

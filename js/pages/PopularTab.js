@@ -14,6 +14,7 @@ import DataRepossitory from "../expand/dao/DataRepossitory";
 import Api from "../common/Api";
 import RepossitoryCell from "../expand/dao/RepossitoryCell";
 import Color from '../common/Color'
+import RepossitoryDetail from "./RepossitoryDetail";
 
 export default class PopularTab extends Component {
     constructor(props) {
@@ -79,8 +80,21 @@ export default class PopularTab extends Component {
     renderRow(rowData) {
         // console.log(rowData);
         return (
-            <RepossitoryCell data={rowData}/>
+            <RepossitoryCell
+                onSelect={()=>this.onSelect(rowData)}
+                data={rowData}/>
         )
+    }
+
+    onSelect(item){
+        console.log('item:'+item);
+        this.props.navigator.push({
+            component:RepossitoryDetail,
+            params:{
+                data:item,
+                ...this.props,
+            }
+        })
     }
 
 
