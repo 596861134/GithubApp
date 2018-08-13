@@ -8,15 +8,16 @@ import {
 import Color from "../common/Color";
 import NavigatorBar from "../common/NavigatorBar";
 import ViewUtil from "../util/ViewUtil";
+import Api from "../common/Api";
 
 export default class RepossitoryDetail extends Component {
 
     constructor(props) {
         super(props);
-        this.url = this.props.data.item.html_url;
+        this.url = this.props.data.item.html_url?this.props.data.item.html_url:Api.github+this.props.data.item.url;
         this.state = {
             url: this.url,
-            title: this.props.data.item.full_name,
+            title: this.props.data.item.full_name?this.props.data.item.full_name:this.props.data.item.fullName,
             canGoBack: false,
         };
     }
@@ -45,6 +46,7 @@ export default class RepossitoryDetail extends Component {
     }
 
     render() {
+        console.log("uri:"+ this.state.url);
         return (
             <View style={styles.container}>
 

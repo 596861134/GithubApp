@@ -80,8 +80,4 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    images: {
-        width: 22,
-        height: 22,
-    },
 });

@@ -2,43 +2,44 @@ import {
     AsyncStorage,
 } from 'react-native';
 import HttpUtils from '../../common/HttpUtils';
+import GitHubTrending from "../../common/trending/GitHubTrending";
+
+export var FLAG_STORAGE = {flag_popular: 'popular', flag_trending: 'trending'};
 
 export default class DataRepossitory {
+
+    constructor(flag) {
+        this.flag = flag;
+        if (flag === FLAG_STORAGE.flag_trending) this.trending = new GitHubTrending();
+    }
 
     /**
      * 获取缓存数据
      * @param url
      * @returns {Promise<any> | Promise}
      */
-    fetchRepossitory(url){
-        return new Promise((resolve,reject)=>{
+    fetchRepossitory(url) {
+        return new Promise((resolve, reject) => {
             this.fetchLocalRepossitory(url)
-                .then(result=>{
-                    if (result){
-                        console.log('缓存数据获取成功');
+                .then(result => {
+                    if (result) {
                         resolve(result);
-                    }else {
-                        console.log('缓存数据获取失败，请求网络1');
+                    } else {
                         this.fetchNetRepossitory(url)
-                            .then(result=>{
-                                console.log('网络数据获取成功1');
+                            .then(result => {
                                 resolve(result);
                             })
-                            .catch(error=>{
-                                console.log('网络数据获取失败1');
+                            .catch(error => {
                                 reject(error);
                             })
                     }
                 })
-                .catch((error)=>{
-                    console.log('缓存数据获取失败，请求网络2');
+                .catch((error) => {
                     this.fetchNetRepossitory(url)
-                        .then(result=>{
-                            console.log('网络数据获取成功2');
+                        .then(result => {
                             resolve(result);
                         })
-                        .catch(error=>{
-                            console.log('网络数据获取失败2');
+                        .catch(error => {
                             reject(error);
                         })
                 })
@@ -50,21 +51,35 @@ export default class DataRepossitory {
      * @param url
      * @returns {Promise<any> | Promise}
      */
-    fetchNetRepossitory(url){
-        return new Promise((resolve,reject)=>{
-            HttpUtils.get(url)
-                .then(result=>{
-                    if (!result || !result.items) {
-                        reject(new Error('responseData is null'));
-                        return;
-                    }
-                    resolve(result.items);
-                    console.log('开始缓存');
-                    this.saveRepossitory(url,result.items)
-                })
-                .catch(error=>{
+    fetchNetRepossitory(url) {
+        return new Promise((resolve, reject) => {
+            if (this.flag === FLAG_STORAGE.flag_popular) {
+                HttpUtils.get(url)
+                    .then(result => {
+                        if (!result || !result.items) {
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        resolve(result.items);
+                        this.saveRepossitory(url, result.items)
+                    })
+                    .catch(error => {
+                        reject(error);
+                    }).done();
+            } else {
+                this.trending.fetchTrending(url)
+                    .then((result) => {
+                        if (!result) {
+                            reject(new Error('responseData is null'));
+                            return;
+                        }
+                        resolve(result);
+                        this.saveRepossitory(url, result)
+
+                    }).catch((error) => {
                     reject(error);
-                }).done();
+                });
+            }
         })
     }
 
@@ -72,9 +87,9 @@ export default class DataRepossitory {
      * 获取本地数据
      * @returns {Promise<any> | Promise}
      */
-    fetchLocalRepossitory(url){
-        return new Promise((resolve,reject)=>{
-            AsyncStorage.getItem(url, (error, result)=> {
+    fetchLocalRepossitory(url) {
+        return new Promise((resolve, reject) => {
+            AsyncStorage.getItem(url, (error, result) => {
                 if (!error) {
                     try {
                         resolve(JSON.parse(result));
@@ -96,9 +111,9 @@ export default class DataRepossitory {
      * @param result
      */
     saveRepossitory(url, result) {
-        if (!result || !url)return;
+        if (!result || !url) return;
         let wrapData = {items: result, update_date: new Date().getTime()};
-        AsyncStorage.setItem(url, JSON.stringify(wrapData), (error)=> {
+        AsyncStorage.setItem(url, JSON.stringify(wrapData), (error) => {
             if (!error) {
                 console.log('保存成功');
             } else {
@@ -107,11 +122,11 @@ export default class DataRepossitory {
         });
     }
 
-    clearRepossitory(url){
-        AsyncStorage.removeItem(url,(error)=>{
-            if (!error){
+    clearRepossitory(url) {
+        AsyncStorage.removeItem(url, (error) => {
+            if (!error) {
                 console.log('删除成功');
-            }else{
+            } else {
                 console.log('删除失败');
             }
         })
@@ -127,9 +142,9 @@ export default class DataRepossitory {
         let currentDate = new Date();
         let targetDate = new Date();
         targetDate.setTime(longTime);
-        if (currentDate.getMonth() !== targetDate.getMonth())return false;
-        if (currentDate.getDate() !== targetDate.getDate())return false;
-        if (currentDate.getHours() - targetDate.getHours() > 4)return false;
+        if (currentDate.getMonth() !== targetDate.getMonth()) return false;
+        if (currentDate.getDate() !== targetDate.getDate()) return false;
+        if (currentDate.getHours() - targetDate.getHours() > 4) return false;
         // if (currentDate.getMinutes() - targetDate.getMinutes() > 1)return false;
         return true;
     }

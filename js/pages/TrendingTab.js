@@ -11,15 +11,16 @@ import {
     DeviceEventEmitter,
 } from 'react-native';
 import Api from "../common/Api";
-import Color from '../common/Color'
-import RepossitoryDetail from "./RepossitoryDetail";
-import RepossitoryCell from "../expand/dao/RepossitoryCell";
+import Color from "../common/Color";
 import DataRepossitory, {FLAG_STORAGE} from "../expand/dao/DataRepossitory";
+import RepossitoryDetail from "./RepossitoryDetail";
+import TrendingCell from "../expand/dao/TrendingCell";
 
-export default class PopularTab extends Component {
+export default class TrendingTab extends Component {
+
     constructor(props) {
         super(props);
-        this.dataRepossitory = new DataRepossitory(FLAG_STORAGE.flag_popular);
+        this.dataRepossitory = new DataRepossitory(FLAG_STORAGE.flag_trending);
         this.state = {
             result: '',
             dataSource: [],
@@ -28,53 +29,33 @@ export default class PopularTab extends Component {
         }
     }
 
-    onLoad() {
+    componentWillMount() {
+        this.onLoad(this.props.timeSpan);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.timeSpan!==this.props.timeSpan) {
+            this.onLoad(nextProps.timeSpan)
+        }
+    }
+
+    onRefresh(){
+        this.onLoad(this.props.timeSpan);
+    }
+
+    onLoad(timeSpan) {
         this.setState({
             dataSource: [],
             isLoading: true,
         });
-        let url = Api.searchHeader + this.props.tabLabel + Api.searchEnd;
+        let url = this.getUrl(timeSpan);
         console.log('url:' + url);
         // this.cacheData(url);//优先从缓存获取数据，判断逻辑有问题
         this.netWorkData(url);//直接从网络获取数据
     }
 
-    /**
-     * 优先从缓存获取数据
-     * @param url
-     */
-    cacheData(url) {
-        this.dataRepossitory.fetchRepossitory(url)
-            .then((result) => {
-                let items = result && result.items ? result.items : result ? result : [];
-                this.setState({
-                    dataSource: this.state.dataSource.concat(items),
-                    loading: true,
-                    isLoading: false,
-                });
-                if (result && result.update_date && !this.dataRepossitory.checkDate(result.update_date)) {
-                    DeviceEventEmitter.emit('showToast', '数据过时');
-                    this.dataRepossitory.clearRepossitory(url);
-                    this.dataRepossitory.fetchNetRepossitory(url);
-                } else {
-                    DeviceEventEmitter.emit('showToast', '显示缓存数据');
-                }
-            })
-            .then((items) => {
-                if (!items || items.length === 0) return;
-                this.setState({
-                    dataSource: this.state.dataSource.concat(items),
-                    loading: true,
-                    isLoading: false,
-                });
-                DeviceEventEmitter.emit('showToast', '显示网络数据');
-            })
-            .catch(error => {
-                console.log(JSON.stringify(error));
-                this.setState({
-                    isLoading: false,
-                })
-            })
+    getUrl(timeSpan) {
+        return Api.trending + this.props.tabLabel + timeSpan.searchText;
     }
 
     /**
@@ -99,10 +80,6 @@ export default class PopularTab extends Component {
             })
     }
 
-    componentWillMount() {
-        this.onLoad();
-    }
-
     /**
      * list分割线
      * @returns {*}
@@ -111,15 +88,10 @@ export default class PopularTab extends Component {
         return (<View style={{height: 10, width: '100%', backgroundColor: 'white'}}/>)
     }
 
-    /**
-     * item样式布局
-     * @param rowData
-     * @returns {*}
-     */
     renderRow(rowData) {
-        // console.log(rowData);
+        console.log(JSON.stringify(rowData))
         return (
-            <RepossitoryCell
+            <TrendingCell
                 onSelect={()=>this.onSelect(rowData)}
                 data={rowData}/>
         )
@@ -142,39 +114,30 @@ export default class PopularTab extends Component {
 
 
     render() {
-        // if (!this.state.loading) {
-        //     return (
-        //         <View style={styles.container}>
-        //             <Text>数据加载中...</Text>
-        //         </View>
-        //     )
-        // }
-
         return (
             <View style={styles.container}>
                 <FlatList
                     style={styles.lists}
                     data={this.state.dataSource}
                     renderItem={(rowData) => this.renderRow(rowData)}
-                    // ListHeaderComponent={()=>this.space()}
-                    // ListFooterComponent={()=>this.space()}
                     ItemSeparatorComponent={() => this.space()}
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.isLoading}
-                            onRefresh={() => this.onLoad()}
+                            onRefresh={() => this.onRefresh()}
                             color={[Color.themeColor]}
                             tintColor={Color.themeColor}
                             title={'loading...'}
                             titleColor={Color.themeColor}
                         />
                     }
-                    keyExtractor={(item) => item.node_id}
+                    keyExtractor={(item) => item.fullName}
                 />
 
             </View>
         )
     }
+
 }
 
 const styles = StyleSheet.create({
