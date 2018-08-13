@@ -23,7 +23,7 @@ export default class SortKeyPage extends Component {
         this.dataArray = [];//原始数据
         this.sortResultArray = [];//排序后新生成的数组
         this.originalArray = [];    //上次排序的结果
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.languageDao = new LanguageDao(this.props.flag);
         this.state = {
             checkArray: [],//选中的数组
 
@@ -31,7 +31,6 @@ export default class SortKeyPage extends Component {
     }
 
     componentDidMount() {
-        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
         this.loadData();
     }
 
@@ -112,11 +111,12 @@ export default class SortKeyPage extends Component {
                 </View>
             </TouchableOpacity>
         );
-
+        let title = this.props.flag===FLAG_LANGUAGE.flag_language?'语言排序':'标签排序';
         return (
+
             <View style={styles.container}>
                 <NavigatorBar
-                    title={'标签排序'}
+                    title={title}
                     style={{backgroundColor: Color.themeColor,}}
                     statusBar={{
                         backgroundColor: Color.themeColor,

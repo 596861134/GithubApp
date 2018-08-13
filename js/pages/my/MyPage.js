@@ -39,16 +39,38 @@ export default class MyPage extends Component{
                 <Text onPress={()=>{
                     this.props.navigator.push({
                         component:CustomKeyPage,
-                        params:{ ...this.props }
+                        params:{ ...this.props,
+                            flag:FLAG_LANGUAGE.flag_key,
+                        }
                     })
                 }} style={styles.item}>自定义标签</Text>
 
                 <Text onPress={()=>{
                     this.props.navigator.push({
+                        component:CustomKeyPage,
+                        params:{ ...this.props,
+                            flag:FLAG_LANGUAGE.flag_language,
+                        }
+                    })
+                }} style={styles.item}>自定义语言</Text>
+
+                <Text onPress={()=>{
+                    this.props.navigator.push({
                         component:SortKeyPage,
-                        params:{...this.props}
+                        params:{...this.props,
+                            flag:FLAG_LANGUAGE.flag_key,
+                        }
                     })
                 }} style={styles.item}>标签排序</Text>
+
+                <Text onPress={()=>{
+                    this.props.navigator.push({
+                        component:SortKeyPage,
+                        params:{...this.props,
+                            flag:FLAG_LANGUAGE.flag_language,
+                        }
+                    })
+                }} style={styles.item}>语言排序</Text>
 
                 <Text onPress={()=>{
                     this.props.navigator.push({
