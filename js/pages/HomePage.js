@@ -15,6 +15,7 @@ import Color from '../common/Color'
 import AsyncStorageTest from '../../test/AsyncStorageTest'
 import Toast, {DURATION} from 'react-native-easy-toast'
 import WebViewTest from "../../test/WebViewTest";
+import TrendingTest from "../../test/TrendingTest";
 
 export default class HomePage extends Component{
     constructor(props) {
@@ -73,7 +74,8 @@ export default class HomePage extends Component{
                                                          source={require('../../res/images/ic_favorite.png')}/>}
                         badgeText="99+"
                         onPress={() => this.setState({selectedTab: 'favorite'})}>
-                        <WebViewTest />
+                        {/*<WebViewTest />*/}
+                        <TrendingTest />
                     </TabNavigator.Item>
 
                     <TabNavigator.Item
